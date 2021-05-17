@@ -3,6 +3,9 @@
     height: 600px;
     background-image: url('https://d14nx13ylsx7x8.cloudfront.net/lesson_images/images/000/001/443/original/temp1406589445.png');
     position: relative;
+    margin: auto;
+    border: 3px solid green;
+    padding: 10px;
 }
 
 .doodler{
