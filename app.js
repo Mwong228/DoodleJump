@@ -1,10 +1,12 @@
 const container = document.querySelector('.container')
 const doodler = document.createElement('div')
 let doodlerLeftSpace = 50
-let doodlerbottomSpace = 250
-let gameOver = false
+let doodlerBottomSpace = 250
+let isGameOver = false
 let platformCount = 5
 let platforms = []
+let upTimerId 
+let downTimerId
 
 class Platform {
     constructor(newPlatBottom) {
@@ -24,8 +26,9 @@ class Platform {
 function createDoodler() {
     container.appendChild(doodler)
     doodler.classList.add('doodler')
+    doodlerLeftSpace = platforms[0].left
     doodler.style.left = doodlerLeftSpace + 'px'
-    doodler.style.bottom = doodlerbottomSpace + 'px'
+    doodler.style.bottom = doodlerBottomSpace + 'px'
 }
 
 function createPlatforms() {
@@ -39,7 +42,7 @@ function createPlatforms() {
 }
 
 function movePlatforms() {
-    if (doodlerbottomSpace > 200) {
+    if (doodlerBottomSpace > 200) {
         platforms.forEach(platform => {
             platform.bottom -= 4
             let visual = platform.visual
@@ -48,11 +51,41 @@ function movePlatforms() {
     }
 }
 
+function jump(){
+    clearInterval(downTimerId)
+    upTimerId = setInterval(function (){
+        doodlerBottomSpace +=20
+        doodler.style.bottom = doodlerBottomSpace + 'px'
+        if(doodlerBottomSpace > 350){
+            fall()
+        }
+    }, 30)
+}
+
+function fall (){
+    clearInterval(upTimerId)
+    downTimerId = setInterval(function () {
+        doodlerBottomSpace -= 5 
+        doodler.style.bottom = doodlerBottomSpace + 'px'
+        if(doodlerBottomSpace <= 0){
+            gameOver()
+        }
+    }, 30)
+}
+
+function gameOver(){
+    console.log('game over')
+    isGameOver = true
+    clearInterval(upTimerId)
+    clearInterval(downTimerId)
+}
+
 function start() {
-    if (!gameOver) {
+    if (!isGameOver) {
         createPlatforms()
         createDoodler()
         setInterval(movePlatforms, 30)
+        jump()
     }
 }
 
