@@ -112,7 +112,8 @@ function gameOver(){
     while (container.firstChild){
         container.removeChild(container.firstChild)
     }
-    container.innerHTML = score
+    container.innerHTML = `<div>Score:</div><div>${score}</div> <button onClick="window.location.reload()">Play Again</button>`
+    container.inner
     clearInterval(upTimerId)
     clearInterval(downTimerId)
     clearInterval(leftTimerId)
